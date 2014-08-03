@@ -33,23 +33,28 @@ module tspacer(){
 	xtheta = atan(bh/200);
 
 //main
-difference(){
-//remove translate from next line to print at full size
-	translate([0,0,-17.5]) rotate([xtheta,0,0]){
-		translate([0,-bl,0]) union(){
-			//main block
-			cube([bw,bl,bh]);
-			//small block
-			translate([0,0,bh]) cube([sbw,sbl,sbh]);
-			//hole 1
-			translate([h1x,bl-hinset,bh+sbh]) cylinder(r1 = rbase,r2=rtop,h=h1z);
-			//hole 2
-			translate([h2x,bl-hinset,bh]) cylinder(r1 = rbase,r2=rtop,h=h2z);
-			//semi-trangular spacer
-			translate([sbw,0,bh]) tspacer();
+module fullspacer(){
+	difference(){
+	//remove translate from next line to print at full size
+		translate([0,0,-17.5]) rotate([xtheta,0,0]){
+			translate([0,-bl,0]) union(){
+				//main block
+				cube([bw,bl,bh]);
+				//small block
+				translate([0,0,bh]) cube([sbw,sbl,sbh]);
+				//hole 1
+				translate([h1x,bl-hinset,bh+sbh]) cylinder(r1 = rbase,r2=rtop,h=h1z);
+				//hole 2
+				translate([h2x,bl-hinset,bh]) cylinder(r1 = rbase,r2=rtop,h=h2z);
+				//semi-trangular spacer
+				translate([sbw,0,bh]) tspacer();
+			}
 		}
+		color("red") translate([0,-bl*2,-bh]) cube([bw,bl*2,bh]);
 	}
-	color("red") translate([0,-bl*2,-bh]) cube([bw,bl*2,bh]);
 }
+
+mirror([1,1,0])fullspacer();
+
 
 
